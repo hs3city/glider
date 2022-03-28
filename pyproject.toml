@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "glider"
+version = "0.1.0"
+description = "The Bat Signal for your Space."
+authors = ["Piotr Gaczkowski <doomhammerng@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aiocron = "^1.6"
+discord = "^1.7.3"
+python-dotenv = "^0.19.0"
+google-api-python-client = "^2.15.0"
+google-auth-oauthlib = "^0.4.5"
+PyYAML = "^5.4.1"
+requests = "^2.27.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
