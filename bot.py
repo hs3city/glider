@@ -51,11 +51,11 @@ async def update_state(state):
                         persons = counts["persons"]
                 except BaseException:
                     logging.exception("Something went wrong")
-                    await member.edit(nick=usernames[state]")
+                    await member.edit(nick=usernames[state])
                 else:
                     await member.edit(nick=usernames[state] + f"- {persons}")
             else:
-                await member.edit(nick=usernames[state]")
+                await member.edit(nick=usernames[state])
 
 
 async def update_presence(state):
