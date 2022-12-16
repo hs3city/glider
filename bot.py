@@ -15,7 +15,7 @@ space_edpoint = os.getenv('SPACE_ENDPOINT')
 
 avatars = {}
 
-COUNTER_INFO = (os.getenv('COUNTER_HOST', "counter.local"), 28178)
+COUNTER_INFO = (os.getenv('COUNTER_HOST', "counter.local"), 26178)
 usernames = {
     'closed': 'Space zamknięty',
     'open': 'Space otwarty'
