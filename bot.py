@@ -1,6 +1,8 @@
 import logging
 import os
+import socket
 import traceback
+import json
 
 import aiocron
 import discord
@@ -13,6 +15,7 @@ space_edpoint = os.getenv('SPACE_ENDPOINT')
 
 avatars = {}
 
+COUNTER_INFO = ("counter.local", 28178)
 usernames = {
     'closed': 'Space zamknięty',
     'open': 'Space otwarty'
@@ -40,7 +43,20 @@ async def update_state(state):
             logging.error(traceback.format_exc())
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
-            await member.edit(nick=usernames[state])
+            if state == "open":
+                try:
+                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                        sock.connect(COUNTER_INFO)
+                        counts = json.loads(sock.recv(1024).decode("UTF-8"))
+                        persons = counts["persons"]
+                except BaseException:
+                    logging.exception("Something went wrong")
+                    await member.edit(nick=usernames[state]")
+                else:
+                    await member.edit(nick=usernames[state] + f"- {persons}")
+            else:
+                await member.edit(nick=usernames[state]")
+
 
 async def update_presence(state):
     global current_state
