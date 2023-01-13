@@ -40,20 +40,23 @@ async def update_state(state):
         try:
             await client.user.edit(avatar=avatars[state])
         except:
-            logging.error(traceback.format_exc())
+            logging.exception(traceback.format_exc())
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
             if state == "open":
                 try:
+                    logging.info(f'Asking The Count how many hackers are there')
                     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                         sock.connect(COUNTER_INFO)
                         counts = json.loads(sock.recv(1024).decode("UTF-8"))
+                        logging.info(counts)
                         persons = counts["persons"]
+                        logging.info(f'The Count says there are {persons} people')
                 except BaseException:
-                    logging.exception("Something went wrong")
+                    logging.exception(traceback.format_exc())
                     await member.edit(nick=usernames[state])
                 else:
-                    await member.edit(nick=usernames[state] + f"- {persons}")
+                    await member.edit(nick=usernames[state] + f" - {persons} people in da haus")
             else:
                 await member.edit(nick=usernames[state])
 
