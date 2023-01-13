@@ -1,35 +1,6 @@
 ARG PYTHON_VERSION=3.10.9
-ARG POETRY_VERSION=1.3.2
 
-FROM python:$PYTHON_VERSION-slim AS builder
-ENV \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONFAULTHANDLER=1
-ENV \
-    POETRY_VERSION=$POETRY_VERSION \
-    POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential gcc curl && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -
-ENV PATH="$POETRY_HOME/bin:$PATH"
-
-ENV VIRTUAL_ENV=/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-RUN python -m venv $VIRTUAL_ENV && \
-    /venv/bin/python -m pip install --upgrade pip
-
-COPY pyproject.toml poetry.lock ./
-# Needs `export DOCKER_BUILDKIT=1` and have Docker buildkit installed to work
-RUN --mount=type=cache,target=/root/.cache poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin --no-deps
-
-
-FROM python:$PYTHON_VERSION-slim AS runner
+FROM python:$PYTHON_VERSION-slim
 
 ENV \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -39,11 +10,13 @@ ENV \
 RUN useradd --create-home appuser
 USER appuser
 
-COPY --from=builder /venv /venv
-
 WORKDIR /home/appuser/bot
-ENV PATH="/venv/bin:$PATH"
+
 ENV PYTHONPATH=/home/appuser
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
 
 COPY res/ ./res/
 COPY bot.py .
