@@ -49,7 +49,7 @@ async def update_state(state, persons, pizzas):
                 if persons is not None:
                     await member.edit(nick=usernames[state])
                 else:
-                    await member.edit(nick=usernames[state] + f" - {persons} people in da haus")
+                    await member.edit(nick=f"{usernames[state]} - {persons} pps")
             else:
                 await member.edit(nick=usernames[state])
 
