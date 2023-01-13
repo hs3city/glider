@@ -1,5 +1,5 @@
-ARG PYTHON_VERSION=3.10.6
-ARG POETRY_VERSION=1.1.15
+ARG PYTHON_VERSION=3.10.9
+ARG POETRY_VERSION=1.3.2
 
 FROM python:$PYTHON_VERSION-slim AS builder
 ENV \
@@ -15,7 +15,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential gcc curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_VERSION=1.1.15 python3 -
+RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 -
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
 ENV VIRTUAL_ENV=/venv
