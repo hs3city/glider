@@ -79,7 +79,7 @@ async def is_there_life_on_mars():
                 logging.info(counts)
                 people = counts["persons"]
                 pizzas = counts["pizzas"]
-                logging.info(f'The Count says there are {persons} people (and {pizzas} pizzas')
+                logging.info(f'The Count says there are {people} people (and {pizzas} pizzas')
         except BaseException:
             logging.exception(traceback.format_exc())
     else:
