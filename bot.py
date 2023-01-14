@@ -38,11 +38,13 @@ client = discord.Client()
 async def update_state(state, persons, pizzas):
     if client.user:
         logging.info(f'Updating the presence to "{state}, {persons}, {pizzas}"')
-        await client.change_presence(activity=discord.Activity(name=f"the Space (*{state}*)", type=discord.ActivityType.watching))
-        try:
-            await client.user.edit(avatar=avatars[state])
-        except:
-            logging.exception(traceback.format_exc())
+        if (state != current_state):
+            await client.change_presence(activity=discord.Activity(name=f"the Space (*{state}*)", type=discord.ActivityType.watching))
+            try:
+                await client.user.edit(avatar=avatars[state])
+            except:
+                logging.exception(traceback.format_exc())
+
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
             if state == "open":
@@ -57,10 +59,10 @@ async def update_state(state, persons, pizzas):
 async def update_presence(state, persons, pizzas):
     global current_state, current_persons, current_pizzas
     if state != current_state or persons != current_persons or pizzas != current_pizzas:
+        await update_state(state, persons, pizzas)
         current_state = state
         current_persons = persons
         current_pizzas = pizzas
-        await update_state(state, persons, pizzas)
 
 # Fire every minute
 @aiocron.crontab('* * * * *')
