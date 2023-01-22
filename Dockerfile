@@ -6,7 +6,7 @@ ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONFAULTHANDLER=1
-    
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential gcc curl && \
     rm -rf /var/lib/apt/lists/*
