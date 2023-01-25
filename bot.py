@@ -48,7 +48,7 @@ async def update_state(state, persons, pizzas):
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
             if state == "open":
-                if persons is not None:
+                if persons is None:
                     await member.edit(nick=usernames[state])
                 else:
                     await member.edit(nick=f"{usernames[state]} - {persons} pps")
