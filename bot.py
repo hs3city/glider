@@ -38,7 +38,8 @@ client = discord.Client(intents=intents)
 async def update_state(state, persons):
     if client.user:
         logging.info(f'Updating the presence to "{state}, {persons}"')
-        nick = f"{usernames[state]} ({persons} {people_indicator})" if state == 'open' and persons is not None else usernames[state]
+        nick = f"{usernames[state]} ({persons} {people_indicator})" if state == 'open' and persons is not None \
+            else usernames[state]
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
             await member.edit(nick=nick)
