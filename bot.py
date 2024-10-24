@@ -46,7 +46,7 @@ async def update_state(state, persons):
 
             channel = guild.get_channel(channel_id)
             if channel:
-                channel_state = "🔒" if state == "closed" else f"🔓/{persons or "?"}"
+                channel_state = "🔒" if state == "closed" else f"🔓/{persons or '?'}"
                 await channel.edit(name=f"{channel_name} [{channel_state}]")
 
 
