@@ -44,10 +44,12 @@ async def update_state(state, persons):
             member = guild.get_member_named(client.user.name)
             await member.edit(nick=nick)
 
-            channel = guild.get_channel(channel_id)
+            channel = guild.get_channel(int(channel_id))
             if channel:
                 channel_state = "🔒" if state == "closed" else f"🔓/{persons or '?'}"
                 await channel.edit(name=f"{channel_name} [{channel_state}]")
+            else:
+                logging.warning(f"Channel {channel_id} not found")
 
 
 async def update_presence(state, persons):
