@@ -9,6 +9,7 @@ from discord.ext import tasks
 
 discord_token = os.getenv('DISCORD_TOKEN')
 space_endpoint = os.getenv('SPACE_ENDPOINT')
+channel_id = os.getenv('DISCORD_CHANNEL_ID')
 
 avatars = {}
 usernames = {
@@ -22,6 +23,7 @@ online_status = {
 }
 
 people_indicator = '🧙'
+channel_name = 'INFORMACJA 📑'
 
 current_state = None
 current_persons = None
@@ -36,13 +38,16 @@ client = discord.Client(intents=intents)
 async def update_state(state, persons):
     if client.user:
         logging.info(f'Updating the presence to "{state}, {persons}"')
+        nick = f"{usernames[state]} ({persons} {people_indicator})" if state == 'open' and persons is not None \
+            else usernames[state]
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
-            nick = usernames[state]
-            if state == 'open':
-                if persons is not None:
-                    nick = f"{usernames[state]} ({persons} {people_indicator})"
             await member.edit(nick=nick)
+
+            channel = guild.get_channel(channel_id)
+            if channel:
+                channel_state = "🔒" if state == "closed" else f"🔓/{persons or "?"}"
+                await channel.edit(name=f"{channel_name} [{channel_state}]")
 
 
 async def update_presence(state, persons):
