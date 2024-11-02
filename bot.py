@@ -9,7 +9,7 @@ from discord.ext import tasks
 
 discord_token = os.getenv('DISCORD_TOKEN')
 space_endpoint = os.getenv('SPACE_ENDPOINT')
-channel_id = os.getenv('CHANNEL_ID')
+channel_id = os.getenv('DISCORD_CHANNEL_ID')
 
 avatars = {}
 usernames = {
