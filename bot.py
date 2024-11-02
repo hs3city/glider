@@ -9,7 +9,7 @@ from discord.ext import tasks
 
 discord_token = os.getenv('DISCORD_TOKEN')
 space_endpoint = os.getenv('SPACE_ENDPOINT')
-channel_id = "1299655773252485201"
+channel_id = os.getenv('CHANNEL_ID')
 
 avatars = {}
 usernames = {
@@ -48,7 +48,7 @@ async def update_state(state, persons):
             channel = guild.get_channel(int(channel_id))
             if channel:
                 # Setting lock emoji and actual status
-                lock_icon = "🔒" if state == "closed" else "🔓"
+                lock_icon = "🔴🔒" if state == "closed" else "🟢🔓"
                 channel_state = "closed" if state == "closed" else f"open-{persons or '?'}"
                 formatted_channel_name = f"{lock_icon}-{channel_name}-{channel_state}"
                 
