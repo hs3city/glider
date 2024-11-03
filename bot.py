@@ -23,7 +23,7 @@ online_status = {
 }
 
 people_indicator = '🧙'
-channel_name = 'INFORMACJA 📑'
+channel_name = 'space-is'
 
 current_state = None
 current_persons = None
@@ -44,10 +44,16 @@ async def update_state(state, persons):
             member = guild.get_member_named(client.user.name)
             await member.edit(nick=nick)
 
+            # Getting channel ID and setting status for it
             channel = guild.get_channel(int(channel_id))
             if channel:
-                channel_state = "🔒" if state == "closed" else f"🔓/{persons or '?'}"
-                await channel.edit(name=f"{channel_name} [{channel_state}]")
+                # Setting lock emoji and actual status
+                lock_icon = "🔴🔒" if state == "closed" else "🟢🔓"
+                channel_state = "closed" if state == "closed" else f"open-{persons or '?'}"
+                formatted_channel_name = f"{lock_icon}-{channel_name}-{channel_state}"
+                
+                # Setting actual status
+                await channel.edit(name=formatted_channel_name)
             else:
                 logging.warning(f"Channel {channel_id} not found")
 
