@@ -1,0 +1,10 @@
+select = ["F", "E", "Q"]
+extend-select = ["Q"]
+line-length = 120
+
+[format]
+quote-style = "single"
+
+[flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"

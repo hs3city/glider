@@ -4,7 +4,6 @@ import traceback
 
 import discord
 import requests
-
 from discord.ext import tasks
 
 discord_token = os.getenv('DISCORD_TOKEN')
@@ -12,15 +11,9 @@ space_endpoint = os.getenv('SPACE_ENDPOINT')
 channel_id = os.getenv('DISCORD_CHANNEL_ID')
 
 avatars = {}
-usernames = {
-    'closed': 'Closed',
-    'open': 'Open'
-}
+usernames = {'closed': 'Closed', 'open': 'Open'}
 
-online_status = {
-    'closed': discord.Status.offline,
-    'open': discord.Status.online
-}
+online_status = {'closed': discord.Status.offline, 'open': discord.Status.online}
 
 people_indicator = '🧙'
 channel_name = 'space-is'
@@ -38,8 +31,11 @@ client = discord.Client(intents=intents)
 async def update_state(state, persons):
     if client.user:
         logging.info(f'Updating the presence to "{state}, {persons}"')
-        nick = f"{usernames[state]} ({persons} {people_indicator})" if state == 'open' and persons is not None \
+        nick = (
+            f'{usernames[state]} ({persons} {people_indicator})'
+            if state == 'open' and persons is not None
             else usernames[state]
+        )
         for guild in client.guilds:
             member = guild.get_member_named(client.user.name)
             await member.edit(nick=nick)
@@ -48,14 +44,14 @@ async def update_state(state, persons):
             channel = guild.get_channel(int(channel_id))
             if channel:
                 # Setting lock emoji and actual status
-                lock_icon = "🔴🔒" if state == "closed" else "🟢🔓"
-                channel_state = "closed" if state == "closed" else f"open-{persons or '?'}"
-                formatted_channel_name = f"{lock_icon}-{channel_name}-{channel_state}"
-                
+                lock_icon = '🔴🔒' if state == 'closed' else '🟢🔓'
+                channel_state = 'closed' if state == 'closed' else f"open-{persons or '?'}"
+                formatted_channel_name = f'{lock_icon}-{channel_name}-{channel_state}'
+
                 # Setting actual status
                 await channel.edit(name=formatted_channel_name)
             else:
-                logging.warning(f"Channel {channel_id} not found")
+                logging.warning(f'Channel {channel_id} not found')
 
 
 async def update_presence(state, persons):
@@ -76,7 +72,13 @@ async def is_there_life_on_mars():
         space_state = 'open'
     else:
         space_state = 'closed'
-    people = spaceapi_json['sensors']['people_now_present'][0]['value']
+
+    try:
+        people = int(spaceapi_json['sensors']['people_now_present'][0].get('value', 0))
+    except (TypeError, ValueError) as e:
+        logging.warning(f'Failed to parse people_now_present value: {e}')
+        people = 0
+
     logging.info(f'Current status: {space_state} ({people} in da haus)')
     await update_presence(space_state, people)
 
@@ -91,7 +93,7 @@ async def on_ready():
     try:
         await client.user.edit(username='glider')
         await client.user.edit(avatar=avatars['open'])
-        await client.change_presence(activity=discord.Activity(name="the Space", type=discord.ActivityType.watching))
+        await client.change_presence(activity=discord.Activity(name='the Space', type=discord.ActivityType.watching))
     except:
         logging.error(traceback.format_exc())
     is_there_life_on_mars.start()
