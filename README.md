@@ -16,10 +16,10 @@ git clone https://github.com/hs3city/glider
 cd glider
 ```
 
-### 2. Clone the Repository
+### 2. Create a Virtual Environment
 ```sh
-git clone https://github.com/hs3city/glider
-cd glider
+python -m venv venv
+source venv/bin/activate
 ```
 
 ### 3. Install Dependencies
