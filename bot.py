@@ -74,7 +74,11 @@ async def is_there_life_on_mars():
         space_state = 'closed'
 
     try:
-        people = int(spaceapi_json['sensors']['people_now_present'][0].get('value', 0))
+        people = spaceapi_json['sensors']['people_now_present'][0].get('value', 0)
+        if isinstance(people, str):
+            people = int(float(people))
+        else:
+            people = int(people)
     except (TypeError, ValueError) as e:
         logging.warning(f'Failed to parse people_now_present value: {e}')
         people = 0
