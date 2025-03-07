@@ -73,4 +73,4 @@ docker run -e DISCORD_TOKEN='discord-bot-token' \
 4. Submit a pull request.
 
 ## License
-This project is licensed under the terms of the [MIT](LICENSE) file.
+This project is licensed under the terms of the [MIT](LICENSE).
