@@ -25,8 +25,8 @@ current_persons = None
 
 confirmation_needed = False
 confirmation_start_time = None
-# Wait 3 minutes before confirming closed state
-confirmation_delay_minutes = 3
+# Wait 10 minutes before confirming closed state
+confirmation_delay_minutes = 10
 pending_state = None
 
 # Logging configuration
