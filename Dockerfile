@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.10.9
+ARG PYTHON_VERSION=3.12.3
 
 FROM python:$PYTHON_VERSION-slim
 
@@ -20,8 +20,11 @@ ENV PYTHONPATH=/home/appuser
 
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --require-hashes -r requirements.txt
 
 COPY res/ ./res/
-COPY bot.py .
-CMD python bot.py
+COPY *.py ./
+
+CMD ["python", "bot.py"]
+
