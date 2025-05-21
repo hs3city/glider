@@ -2,7 +2,13 @@ import asyncio
 import logging
 
 import discord
+import discord.voice_client as vc
 from discord.ext import tasks
+
+# Force NaCl check to True
+# Our bot doesn't use actual audio and won't ever need it
+# This saves us from having to build it all (takes 20 extra min in the pipe)
+vc.has_nacl = True
 
 channel_id = None
 client: discord.Client = None
