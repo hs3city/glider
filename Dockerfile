@@ -8,7 +8,7 @@ ENV \
     PYTHONFAULTHANDLER=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential gcc curl && \
+    apt-get install -y --no-install-recommends build-essential gcc curl libffi-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN useradd --create-home appuser
