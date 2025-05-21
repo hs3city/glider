@@ -1,1 +1,7 @@
 .env
+
+.idea/
+__pycache__/
+
+# Stored bot enabled settings file
+enabled.txt

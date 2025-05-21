@@ -18,6 +18,7 @@ htmlcov/
 venv
 
 .DS_Store
+Thumbs.db
 .AppleDouble
 .LSOverride
 ._*
