@@ -6,9 +6,9 @@ authors = ["Piotr Gaczkowski <doomhammerng@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-discord = "^2.1.0"
-requests = "^2.27.1"
+python = "^3.12"
+discord-py = "^2.4.0"
+requests = "^2.32.3"
 
 [tool.poetry.dev-dependencies]
 
